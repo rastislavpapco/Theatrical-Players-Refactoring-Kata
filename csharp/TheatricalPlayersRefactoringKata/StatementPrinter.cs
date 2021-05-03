@@ -13,22 +13,28 @@ namespace TheatricalPlayersRefactoringKata
             var result = string.Format("Statement for {0}\n", invoice.Customer);
             CultureInfo cultureInfo = new CultureInfo("en-US");
 
-            foreach(var perf in invoice.Performances) 
+            const int tragedyPrice = 40000;
+            const int comedyPrice = 30000;
+
+            const int tragedyAudienceLimit = 30;
+            const int comedyAudienceLimit = 20;
+
+            foreach (var perf in invoice.Performances) 
             {
                 var play = plays[perf.PlayID];
                 var thisAmount = 0;
                 switch (play.Type) 
                 {
                     case "tragedy":
-                        thisAmount = 40000;
-                        if (perf.Audience > 30) {
-                            thisAmount += 1000 * (perf.Audience - 30);
+                        thisAmount = tragedyPrice;
+                        if (perf.Audience > tragedyAudienceLimit) {
+                            thisAmount += 1000 * (perf.Audience - tragedyAudienceLimit);
                         }
                         break;
                     case "comedy":
-                        thisAmount = 30000;
-                        if (perf.Audience > 20) {
-                            thisAmount += 10000 + 500 * (perf.Audience - 20);
+                        thisAmount = comedyPrice;
+                        if (perf.Audience > comedyAudienceLimit) {
+                            thisAmount += 10000 + 500 * (perf.Audience - comedyAudienceLimit);
                         }
                         thisAmount += 300 * perf.Audience;
                         break;
@@ -52,3 +58,4 @@ namespace TheatricalPlayersRefactoringKata
 
     }
 }
+
