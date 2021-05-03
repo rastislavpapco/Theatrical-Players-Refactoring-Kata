@@ -13,12 +13,31 @@ namespace TheatricalPlayersRefactoringKata
             var result = string.Format("Statement for {0}\n", invoice.Customer);
             CultureInfo cultureInfo = new CultureInfo("en-US");
 
+
+            var computedPrice = ComputePrice(invoice, plays);
+            foreach (var perf in invoice.Performances)
+            {
+                var price = computedPrice[perf.PlayID];
+                var play = plays[perf.PlayID];
+                result += String.Format(cultureInfo, "  {0}: {1:C} ({2} seats)\n", play.Name, Convert.ToDecimal(price / 100), perf.Audience);   
+            }
+
+            result += String.Format(cultureInfo, "Amount owed is {0:C}\n", Convert.ToDecimal(totalAmount / 100));
+            result += String.Format("You earned {0} credits\n", volumeCredits);
+
+            return result;
+        }
+
+        private IDictionary<string, int> ComputePrice(Invoice invoice, IDictionary<string, Play> plays)
+        {
             const int tragedyPrice = 40000;
             const int comedyPrice = 30000;
 
             const int tragedyAudienceLimit = 30;
             const int comedyAudienceLimit = 20;
+            var volumeCredits = 0;
 
+            IDictionary<string, int> playCosts = new Dictionary<string, int>();
             foreach (var perf in invoice.Performances) 
             {
                 var play = plays[perf.PlayID];
@@ -48,16 +67,12 @@ namespace TheatricalPlayersRefactoringKata
                     volumeCredits += (int)Math.Floor((decimal)perf.Audience / 10);
 
                 // print line for this order
-                result += String.Format(cultureInfo, "  {0}: {1:C} ({2} seats)\n", play.Name, Convert.ToDecimal(thisAmount / 100), perf.Audience);
-                totalAmount += thisAmount;
+                
+                // result += String.Format(cultureInfo, "  {0}: {1:C} ({2} seats)\n", play.Name, Convert.ToDecimal(thisAmount / 100), perf.Audience);
+                // totalAmount += thisAmount;
+                playCosts[perf.PlayID] = thisAmount;
             }
-
-            result += String.Format(cultureInfo, "Amount owed is {0:C}\n", Convert.ToDecimal(totalAmount / 100));
-            result += String.Format("You earned {0} credits\n", volumeCredits);
-
-            return result;
         }
-
     }
 }
 
