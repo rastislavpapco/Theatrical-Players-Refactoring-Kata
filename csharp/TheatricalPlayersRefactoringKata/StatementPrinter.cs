@@ -44,7 +44,7 @@ namespace TheatricalPlayersRefactoringKata
                 // add volume credits
                 volumeCredits += Math.Max(perf.Audience - 30, 0);
                 // add extra credit for every ten comedy attendees
-                if ("comedy" == play.Type) volumeCredits += (int)Math.Floor((decimal)perf.Audience / 5);
+                if ("comedy" == play.Type) volumeCredits += (int)Math.Floor((decimal)perf.Audience / 10);
 
                 // print line for this order
                 result += String.Format(cultureInfo, "  {0}: {1:C} ({2} seats)\n", play.Name, Convert.ToDecimal(thisAmount / 100), perf.Audience);
