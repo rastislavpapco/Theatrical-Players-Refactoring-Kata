@@ -39,6 +39,11 @@ namespace TheatricalPlayersRefactoringKata
             const int tragedyAudienceLimit = 30;
             const int comedyAudienceLimit = 20;
 
+            const int tragedyOverLimitTicketPrice = 1000;
+            const int comedyOverLimitTicketPrice = 500;
+            const int comedyOverLimitFee = 10000;
+            const int comedyTicketPrice = 300;
+
             IDictionary<string, int> playCosts = new Dictionary<string, int>();
             foreach (var perf in invoice.Performances) 
             {
@@ -49,15 +54,15 @@ namespace TheatricalPlayersRefactoringKata
                     case "tragedy":
                         thisAmount = tragedyPrice;
                         if (perf.Audience > tragedyAudienceLimit) {
-                            thisAmount += 1000 * (perf.Audience - tragedyAudienceLimit);
+                            thisAmount += tragedyOverLimitTicketPrice * (perf.Audience - tragedyAudienceLimit);
                         }
                         break;
                     case "comedy":
                         thisAmount = comedyPrice;
                         if (perf.Audience > comedyAudienceLimit) {
-                            thisAmount += 10000 + 500 * (perf.Audience - comedyAudienceLimit);
+                            thisAmount += comedyOverLimitFee + comedyOverLimitTicketPrice * (perf.Audience - comedyAudienceLimit);
                         }
-                        thisAmount += 300 * perf.Audience;
+                        thisAmount += comedyTicketPrice * perf.Audience;
                         break;
                     default:
                         throw new Exception("unknown type: " + play.Type);
