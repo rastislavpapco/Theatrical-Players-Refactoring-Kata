@@ -33,13 +33,10 @@ namespace TheatricalPlayersRefactoringKata
 
         private IDictionary<string, int> ComputePrice(Invoice invoice, IDictionary<string, Play> plays)
         {
-            const int tragedyPrice = 40000;
             const int comedyPrice = 30000;
 
-            const int tragedyAudienceLimit = 30;
             const int comedyAudienceLimit = 20;
 
-            const int tragedyOverLimitTicketPrice = 1000;
             const int comedyOverLimitTicketPrice = 500;
             const int comedyOverLimitFee = 10000;
             const int comedyTicketPrice = 300;
@@ -52,10 +49,7 @@ namespace TheatricalPlayersRefactoringKata
                 switch (play.Type) 
                 {
                     case "tragedy":
-                        thisAmount = tragedyPrice;
-                        if (perf.Audience > tragedyAudienceLimit) {
-                            thisAmount += tragedyOverLimitTicketPrice * (perf.Audience - tragedyAudienceLimit);
-                        }
+                        thisAmount += ComputeTragedyPrice(perf);
                         break;
                     case "comedy":
                         thisAmount = comedyPrice;
@@ -71,6 +65,22 @@ namespace TheatricalPlayersRefactoringKata
             }
 
             return playCosts;
+        }
+
+        private int ComputeTragedyPrice(Performance perf)
+        {
+            int finalPrice = 0;
+            const int tragedyPrice = 40000;
+            const int tragedyAudienceLimit = 30;
+            const int tragedyOverLimitTicketPrice = 1000;
+
+            finalPrice = tragedyPrice;
+            if (perf.Audience > tragedyAudienceLimit)
+            {
+                finalPrice += tragedyOverLimitTicketPrice * (perf.Audience - tragedyAudienceLimit);
+            }
+
+            return finalPrice;
         }
 
         private int ComputeVolumeCredits(Invoice invoice, IDictionary<string, Play> plays)
