@@ -37,19 +37,13 @@ namespace TheatricalPlayersRefactoringKata
             foreach (var perf in invoice.Performances) 
             {
                 var play = plays[perf.PlayID];
-                var thisAmount = 0;
-                switch (play.Type) 
+                
+                playCosts[perf.PlayID] = play.Type switch
                 {
-                    case "tragedy":
-                        thisAmount += ComputeTragedyPrice(perf);
-                        break;
-                    case "comedy":
-                        thisAmount += ComputeComedyPrice(perf);
-                        break;
-                    default:
-                        throw new Exception("unknown type: " + play.Type);
-                }                
-                playCosts[perf.PlayID] = thisAmount;
+                    "tragedy" => ComputeTragedyPrice(perf),
+                    "comedy" => ComputeComedyPrice(perf),
+                    _ => throw new Exception("unknown type: " + play.Type),
+                };
             }
 
             return playCosts;
