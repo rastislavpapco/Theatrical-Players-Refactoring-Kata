@@ -33,14 +33,6 @@ namespace TheatricalPlayersRefactoringKata
 
         private IDictionary<string, int> ComputePrice(Invoice invoice, IDictionary<string, Play> plays)
         {
-            const int comedyPrice = 30000;
-
-            const int comedyAudienceLimit = 20;
-
-            const int comedyOverLimitTicketPrice = 500;
-            const int comedyOverLimitFee = 10000;
-            const int comedyTicketPrice = 300;
-
             IDictionary<string, int> playCosts = new Dictionary<string, int>();
             foreach (var perf in invoice.Performances) 
             {
@@ -52,11 +44,7 @@ namespace TheatricalPlayersRefactoringKata
                         thisAmount += ComputeTragedyPrice(perf);
                         break;
                     case "comedy":
-                        thisAmount = comedyPrice;
-                        if (perf.Audience > comedyAudienceLimit) {
-                            thisAmount += comedyOverLimitFee + comedyOverLimitTicketPrice * (perf.Audience - comedyAudienceLimit);
-                        }
-                        thisAmount += comedyTicketPrice * perf.Audience;
+                        thisAmount += ComputeComedyPrice(perf);
                         break;
                     default:
                         throw new Exception("unknown type: " + play.Type);
@@ -79,6 +67,25 @@ namespace TheatricalPlayersRefactoringKata
             {
                 finalPrice += tragedyOverLimitTicketPrice * (perf.Audience - tragedyAudienceLimit);
             }
+
+            return finalPrice;
+        }
+
+        private int ComputeComedyPrice(Performance perf)
+        {
+            int finalPrice = 0;
+            const int comedyPrice = 30000;
+            const int comedyAudienceLimit = 20;
+            const int comedyOverLimitTicketPrice = 500;
+            const int comedyOverLimitFee = 10000;
+            const int comedyTicketPrice = 300;
+
+            finalPrice = comedyPrice;
+            if (perf.Audience > comedyAudienceLimit)
+            {
+                finalPrice += comedyOverLimitFee + comedyOverLimitTicketPrice * (perf.Audience - comedyAudienceLimit);
+            }
+            finalPrice += comedyTicketPrice * perf.Audience;
 
             return finalPrice;
         }
