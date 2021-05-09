@@ -9,7 +9,6 @@ namespace TheatricalPlayersRefactoringKata
         public string Print(Invoice invoice, Dictionary<string, Play> plays)
         {
             var totalAmount = 0;
-            var volumeCredits = 0;
             var result = string.Format("Statement for {0}{1}", invoice.Customer, Environment.NewLine);
             CultureInfo cultureInfo = new CultureInfo("en-US");
 
@@ -23,7 +22,7 @@ namespace TheatricalPlayersRefactoringKata
                 result += String.Format(cultureInfo, "  {0}: {1:C} ({2} seats){3}", play.Name, Convert.ToDecimal(price / 100), perf.Audience, Environment.NewLine);   
             }
 
-            volumeCredits = ComputeVolumeCredits(invoice, plays);
+            int volumeCredits = ComputeVolumeCredits(invoice, plays);
 
             result += String.Format(cultureInfo, "Amount owed is {0:C}{1}", Convert.ToDecimal(totalAmount / 100), Environment.NewLine);
             result += String.Format("You earned {0} credits{1}", volumeCredits, Environment.NewLine);
@@ -56,7 +55,7 @@ namespace TheatricalPlayersRefactoringKata
             const int tragedyAudienceLimit = 30;
             const int tragedyOverLimitTicketPrice = 1000;
 
-            finalPrice = tragedyPrice;
+            finalPrice += tragedyPrice;
             if (perf.Audience > tragedyAudienceLimit)
             {
                 finalPrice += tragedyOverLimitTicketPrice * (perf.Audience - tragedyAudienceLimit);
@@ -74,7 +73,7 @@ namespace TheatricalPlayersRefactoringKata
             const int comedyOverLimitFee = 10000;
             const int comedyTicketPrice = 300;
 
-            finalPrice = comedyPrice;
+            finalPrice += comedyPrice;
             if (perf.Audience > comedyAudienceLimit)
             {
                 finalPrice += comedyOverLimitFee + comedyOverLimitTicketPrice * (perf.Audience - comedyAudienceLimit);
