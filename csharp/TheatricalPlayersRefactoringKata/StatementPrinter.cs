@@ -12,10 +12,10 @@ namespace TheatricalPlayersRefactoringKata
             var result = string.Format("Statement for {0}{1}", invoice.Customer, Environment.NewLine);
             CultureInfo cultureInfo = new CultureInfo("en-US");
             
-            var computedPrice = ComputePrice(invoice, plays);
+            var performancePrices = ComputePerformancePrices(invoice, plays);
             foreach (var perf in invoice.Performances)
             {
-                var price = computedPrice[perf.PlayID];
+                var price = performancePrices[perf.PlayID];
                 var play = plays[perf.PlayID];
                 totalAmount += price;
                 result += String.Format(cultureInfo, "  {0}: {1:C} ({2} seats){3}", play.Name, Convert.ToDecimal(price / 100), perf.Audience, Environment.NewLine);   
@@ -38,13 +38,14 @@ namespace TheatricalPlayersRefactoringKata
             result += String.Format("    <tr><th>play</th><th>seats</th><th>cost</th></tr>{0}", Environment.NewLine);
             CultureInfo cultureInfo = new CultureInfo("en-US");
             
-            var computedPrice = ComputePrice(invoice, plays);
+            var computedPrice = ComputePerformancePrices(invoice, plays);
             foreach (var perf in invoice.Performances)
             {
                 var price = computedPrice[perf.PlayID];
                 var play = plays[perf.PlayID];
                 totalAmount += price;
-                result += String.Format(cultureInfo, "    <tr><td>{0}</td><td>{1}</td><td>{2:C}</td></tr>{3}", play.Name,  perf.Audience, Convert.ToDecimal(price / 100), Environment.NewLine);   
+                result += String.Format(cultureInfo, "    <tr><td>{0}</td><td>{1}</td><td>{2:C}</td></tr>{3}",
+                    play.Name,  perf.Audience, Convert.ToDecimal(price / 100), Environment.NewLine);   
             }
 
             result += String.Format("  </table>{0}", Environment.NewLine);
@@ -56,7 +57,7 @@ namespace TheatricalPlayersRefactoringKata
             return result;
         }
 
-        private IDictionary<string, int> ComputePrice(Invoice invoice, IDictionary<string, Play> plays)
+        private IDictionary<string, int> ComputePerformancePrices(Invoice invoice, IDictionary<string, Play> plays)
         {
             IDictionary<string, int> playCosts = new Dictionary<string, int>();
             foreach (var perf in invoice.Performances) 
