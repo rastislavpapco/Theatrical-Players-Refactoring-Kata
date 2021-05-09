@@ -6,6 +6,12 @@ namespace TheatricalPlayersRefactoringKata
 {
     public class StatementPrinter
     {
+        /// <summary>
+        /// Transforms info about plays to text form.
+        /// </summary>
+        /// <param name="invoice">Customer's invoice</param>
+        /// <param name="plays">Dictionary mapping play to it's ID</param>
+        /// <returns>Formated string with plays info</returns>
         public string Print(Invoice invoice, Dictionary<string, Play> plays)
         {
             var totalAmount = 0;
@@ -29,6 +35,12 @@ namespace TheatricalPlayersRefactoringKata
             return result;
         }
 
+        /// <summary>
+        /// Transforms info about plays to html text form.
+        /// </summary>
+        /// <param name="invoice">Customer's invoice</param>
+        /// <param name="plays">Dictionary mapping play to it's ID</param>
+        /// <returns>HTML string with plays info</returns>
         public string PrintAsHtml(Invoice invoice, Dictionary<string, Play> plays)
         {
             var totalAmount = 0;
@@ -57,6 +69,12 @@ namespace TheatricalPlayersRefactoringKata
             return result;
         }
 
+        /// <summary>
+        /// Computes price of each performance.
+        /// </summary>
+        /// <param name="invoice">Customer's invoice</param>
+        /// <param name="plays">Dictionary mapping play to it's ID</param>
+        /// <returns>Dictionary mapping price to performance's play ID</returns>
         private IDictionary<string, int> ComputePerformancePrices(Invoice invoice, IDictionary<string, Play> plays)
         {
             IDictionary<string, int> playCosts = new Dictionary<string, int>();
@@ -75,6 +93,11 @@ namespace TheatricalPlayersRefactoringKata
             return playCosts;
         }
 
+        /// <summary>
+        /// Compute price of a tragedy performance
+        /// </summary>
+        /// <param name="perf">Tragedy performance</param>
+        /// <returns>Price</returns>
         private int ComputeTragedyPrice(Performance perf)
         {
             int finalPrice = 0;
@@ -91,6 +114,11 @@ namespace TheatricalPlayersRefactoringKata
             return finalPrice;
         }
 
+        /// <summary>
+        /// Compute price of a comedy performance
+        /// </summary>
+        /// <param name="perf">Comedy performance</param>
+        /// <returns>Price</returns>
         private int ComputeComedyPrice(Performance perf)
         {
             int finalPrice = 0;
@@ -110,6 +138,12 @@ namespace TheatricalPlayersRefactoringKata
             return finalPrice;
         }
 
+        /// <summary>
+        /// Computes customer's volume credits.
+        /// </summary>
+        /// <param name="invoice">Customer's invoice</param>
+        /// <param name="plays">Dictionary mapping play to it's ID</param>
+        /// <returns>Volume credits</returns>
         private int ComputeVolumeCredits(Invoice invoice, IDictionary<string, Play> plays)
         {
             int volumeCredits = 0;
