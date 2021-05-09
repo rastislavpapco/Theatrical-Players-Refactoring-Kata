@@ -10,7 +10,7 @@ namespace TheatricalPlayersRefactoringKata
         {
             var totalAmount = 0;
             var volumeCredits = 0;
-            var result = string.Format("Statement for {0}\n", invoice.Customer);
+            var result = string.Format("Statement for {0}{1}", invoice.Customer, Environment.NewLine);
             CultureInfo cultureInfo = new CultureInfo("en-US");
 
 
@@ -19,12 +19,12 @@ namespace TheatricalPlayersRefactoringKata
             {
                 var price = computedPrice[perf.PlayID];
                 var play = plays[perf.PlayID];
-                result += String.Format(cultureInfo, "  {0}: {1:C} ({2} seats)\n", play.Name, Convert.ToDecimal(price / 100), perf.Audience);   
+                result += String.Format(cultureInfo, "  {0}: {1:C} ({2} seats){3}", play.Name, Convert.ToDecimal(price / 100), perf.Audience, Environment.NewLine);   
             }
 
-            result += String.Format(cultureInfo, "Amount owed is {0:C}\n", Convert.ToDecimal(totalAmount / 100));
-            result += String.Format("You earned {0} credits\n", volumeCredits);
-
+            result += String.Format(cultureInfo, "Amount owed is {0:C}{1}", Convert.ToDecimal(totalAmount / 100), Environment.NewLine);
+            result += String.Format("You earned {0} credits{1}", volumeCredits, Environment.NewLine);
+            
             return result;
         }
 
@@ -72,6 +72,8 @@ namespace TheatricalPlayersRefactoringKata
                 // totalAmount += thisAmount;
                 playCosts[perf.PlayID] = thisAmount;
             }
+
+            return playCosts;
         }
     }
 }
